@@ -151,7 +151,12 @@
 		}
 		
 		[self _revealAnimationWithDuration:animationDuration];
-		
+		UIView *overlay = [[UIView alloc] initWithFrame: CGRectMake ( 0, 40, self.frontView.frame.size.width, self.frontView.frame.size.height)];
+        overlay.backgroundColor = [UIColor blackColor];
+        overlay.alpha = 0.6;
+        overlay.tag = 16;
+        
+        [self.frontViewController.view addSubview:overlay];
 		self.currentFrontViewPosition = FrontViewPositionRight;
 	}
 	else if (FrontViewPositionRight == self.currentFrontViewPosition)
@@ -179,6 +184,10 @@
 	}
 	else // FrontViewPositionRightMost == self.currentFrontViewPosition
 	{
+        
+		UIView *viewToRemove = [self.view viewWithTag:16];
+        [viewToRemove removeFromSuperview];
+        
 		// Check if a delegate exists and if so, whether it is fine for us to hiding the rear view.
 		if ([self.delegate respondsToSelector:@selector(revealController:shouldHideRearViewController:)])
 		{
