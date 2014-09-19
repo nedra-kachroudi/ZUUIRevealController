@@ -1,4 +1,4 @@
-/* 
+/*
  
  Copyright (c) 2011, Philip Kluz (Philip.Kluz@zuui.org)
  All rights reserved.
@@ -13,14 +13,14 @@
  notice, this list of conditions and the following disclaimer in the
  documentation and/or other materials provided with the distribution.
  
- * Neither the name of Philip Kluz, 'zuui.org' nor the names of its contributors may 
- be used to endorse or promote products derived from this software 
+ * Neither the name of Philip Kluz, 'zuui.org' nor the names of its contributors may
+ be used to endorse or promote products derived from this software
  without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- DISCLAIMED. IN NO EVENT SHALL PHILIP KLUZ BE LIABLE FOR ANY DIRECT, 
+ DISCLAIMED. IN NO EVENT SHALL PHILIP KLUZ BE LIABLE FOR ANY DIRECT,
  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -44,17 +44,15 @@ typedef enum
 
 @protocol ZUUIRevealControllerDelegate;
 
-@interface ZUUIRevealController : UIViewController <UITableViewDelegate>
+@interface ZUUIRevealController : UIViewController <UITableViewDelegate,UIGestureRecognizerDelegate>
 
 #pragma mark - Public Properties:
 @property (strong, nonatomic) IBOutlet UIViewController *frontViewController;
 @property (strong, nonatomic) IBOutlet UIViewController *rearViewController;
 @property (assign, nonatomic) FrontViewPosition currentFrontViewPosition;
 @property (assign, nonatomic) id<ZUUIRevealControllerDelegate> delegate;
-
-// use swipe and tap gesutures
-@property (assign, nonatomic) BOOL enableSwipeAndTapGestures;
-
+@property (nonatomic, strong) UISwipeGestureRecognizer *leftSwipeGestureRecognizer;
+@property (nonatomic, strong) UISwipeGestureRecognizer *rightSwipeGestureRecognizer;
 // Defines how much of the rear view is shown.
 @property (assign, nonatomic) CGFloat rearViewRevealWidth;
 
@@ -78,6 +76,7 @@ typedef enum
 
 // Defines the radius of the front view's shadow.
 @property (assign, nonatomic) CGFloat frontViewShadowRadius;
+@property (assign, nonatomic) BOOL enableSwipeAndTapGestures;
 
 #pragma mark - Public Methods:
 - (id)initWithFrontViewController:(UIViewController *)aFrontViewController rearViewController:(UIViewController *)aBackViewController;
@@ -90,6 +89,7 @@ typedef enum
 
 - (void)hideFrontView;
 - (void)showFrontViewCompletely:(BOOL)completely;
+- (void)presentPopupViewController:(UIViewController *)aPopupViewController;
 
 @end
 
@@ -98,6 +98,7 @@ typedef enum
 
 @optional
 
+// use swipe and tap gesutures
 - (BOOL)revealController:(ZUUIRevealController *)revealController shouldRevealRearViewController:(UIViewController *)rearViewController;
 - (BOOL)revealController:(ZUUIRevealController *)revealController shouldHideRearViewController:(UIViewController *)rearViewController;
 
